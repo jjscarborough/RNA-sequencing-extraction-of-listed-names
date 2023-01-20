@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov 22 13:59:05 2022
+
+@author: joseph
+"""
+
+
+x=0
+import pandas
+
+import os
+
+cilialist=[]
+location="/Users/joseph/Desktop/GSE165233_RAW/expanded"
+os.chdir(location)
+data=[]
+scgs=pandas.read_excel("/Users/joseph/Desktop/gene lists:papers for RNA seq differentation/MGI cilia gene list mouse.xlsx")
+
+cilialist1=scgs["Symbol"].tolist()
+
+
+
+
+
+
+
+for root, dirs, files in os.walk(location):
+    for file in files:
+        if file.endswith(".csv"):
+            cells=pandas.DataFrame()
+            df=pandas.read_csv(file)
+            totalrows=len(df)
+            totalcolumns=len(df.columns)
+            c=2
+            finalcolumindexIN=0
+            for number in range(totalcolumns-2):
+               
+                y=0
+                u=0
+               
+                count=0
+                ciliacount=[]
+                ciliaID=[]
+                for number in range(totalrows):
+                     count=df.iloc[u,c]
+                     genename=df.iloc[u,1]
+                     u+=1
+                     if genename in cilialist1:
+                        if count>=0:
+                           ciliacount.append(count)
+                           ciliaID.append(genename)
+                print(ciliaID)
+                cells[0]=ciliaID
+                cells[finalcolumindexIN]=ciliacount
+                finalcolumindexIN+=1                
+                c+=1
+                
+                
+                
+                
+            
+           
+            cells.to_excel(file +'.xlsx')
+            
+            
+            
+            
+#print(data)      

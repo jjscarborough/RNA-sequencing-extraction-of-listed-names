@@ -1,0 +1,132 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Sep 15 11:24:02 2022
+
+@author: joseph
+"""
+
+
+x=0
+import pandas
+
+import os
+cilialist=[]
+location="/Users/joseph/Desktop/RNA seq data cortex"
+os.chdir(location)
+data=[]
+scgs=pandas.read_excel("/Users/joseph/Desktop/RNA seq data cortex/scgs.v1.xlsx")
+layer1genes=['FABP7 ','AQP4 ','MT1G ','CXCL14 ','CNR1 ','CHRNA7 ', 'INPP4B ','SERPINE2 ','DACT1 ']
+layer2genes = ['CXCL14 ','CNR1 ','CHRNA7 ', 'INPP4B ','C1QL2 ', 'RASGRF2 ','CARTPT ','WFS1 ','HPACAL1 ','CALB1 ','KCNIP2 ','TLE1 ','SATB2 ','MDGA1 ', 'IGSF11 ','DOK6 ','SERPINE2 ','CARTPT ','CUX2 ','MEF2C ' ,'KITLG ','GPR6 ','UNC5D ','LHX2 ','CUX1' ,'DTX4 ','RAC3 ', 'SYT17 ','SCN4B ','SYT2 ','DIAPH3 ','FAM198B ','FKBP1A ','PCP4 ','SEZ6 ','PHYHIPL ','GNG2 ']
+layer3genes = ['CALB1 ','KCNIP2 ','TLE1 ','SATB2 ','MDGA1 ', 'IGSF11 ','SERPINE2 ','INPP4B ','CARTPT ','CUX2 ','MEF2C ' ,'KITLG ','GPR6 ','UNC5D ','LHX2 ','CUX1' ,'DTX4 ','RAC3 ', 'SYT17 ','SCN4B ','SYT2 ','DIAPH3 ','FAM198B ','FKBP1A ','PCP4 ','CARTPT ','MFGE8 ','PRSS12 ','SV2C ','SNCG ','BEND5 ','WSB2 ','TUBA3D ','LMO3 ','TMEM163 ']
+layer4genes = ['CUX2 ','MEF2C ' ,'KITLG ','GPR6 ','UNC5D ','LHX2 ','CUX1' ,'DTX4 ','VSTM2A ','RORB ', 'PDYN ' ,'CHRNA3 ','KCNIP2 ','KCNIP1 ','CYP39A1 ','VAMP1 ','TRIB2 ','PTPRT ','PDE1A ','TUBA1B ','GRIK4 ','TP53I11 ']
+layer5genes = ['RAC3 ', 'SYT17 ','SCN4B ','SYT2 ','DIAPH3 ','FAM198B ','PCP4 ','SEZ6 ','PHYHIPL ','SNCG ','BEND5 ','WSB2 ','TRIB2 ','PTPRT ','PDE1A ','TUBA1B ','PCP4 ','HTR2C ','VAT1L ','ETV1 ','CRIM1 ','NEFH ','OPN3 ','OMA1 ','FOXO1 ','S100A10 ','LIX1 ','LDB2 ','CNTN6 ','SYT9 ','TRABD2A ','ETV1 ','NTNG2 ','B3GALT2 ','RXFP1 ','GABRA5 ','RPRM ','FEZF2 ','SEMA3E ','KCNK2 ','DKK3 ','TOX ','CPNE7 ','TLE4 ','BCL11B ','SOX5 ','OTX1 ','PCDH20 ','CRYM']
+layer6genes = ['DOK6 ','CNR1 ','FKBP1A ','PHYHIPL ','GNG2 ','WSB2 ','TUBA3D ','LMO3 ', 'TMEM163 ','PDE1A ','TUBA1B ','GRIK4 ','TP53I11 ','ETV1 ','NTNG2 ','B3GALT2 ','RXFP1 ','GABRA5 ','RPRM ','FEZF2 ','SEMA3E ','KCNK2 ','DKK3 ','TOX ','CPNE7 ','TLE4 ','BCL11B ','SOX5 ','OTX1 ','PCDH20 ','CRYM','OPRK1 ', 'SYNPR ', 'ANXA1 ','PCDH17 ','TLE4 ','SYT6 ','TH ','FOXP2 ','LXN ','AKR1C2 ','AKR1C3 ','NR4A3 ','SEMA3C ','SYT10 ','NPY2R ','PPP1R1B ','ISLR ','KRT17 ']
+
+layer1file = pandas.DataFrame(columns=['layer1','count1'])
+layer2file = pandas.DataFrame(columns=['layer2','count2'])
+layer3file = pandas.DataFrame(columns=['layer3', 'count3'])
+layer4file = pandas.DataFrame(columns=['layer4','count4'])
+layer5file = pandas.DataFrame(columns=['layer5', 'count5'])
+layer6file = pandas.DataFrame(columns=['layer6','count6'])
+for root, dirs, files in os.walk(location):
+    for file in files:
+        layer1=[]
+        count1=[]
+        layer2=[]
+        count2=[]
+        layer3=[]
+        count3=[]
+        layer4=[]
+        count4=[]
+        layer5=[]
+        count5=[]
+        layer6=[]
+        count6=[]
+        if file.endswith(".csv"):
+            df=pandas.read_csv(file,delimiter="\t",header=None)
+            #print(df)
+            data=[]
+            layer1file = pandas.DataFrame(columns=['layer1','count1'])
+            layer2file = pandas.DataFrame(columns=['layer2','count2'])
+            layer3file = pandas.DataFrame(columns=['layer3', 'count3'])
+            layer4file = pandas.DataFrame(columns=['layer4','count4'])
+            layer5file = pandas.DataFrame(columns=['layer5', 'count5'])
+            layer6file = pandas.DataFrame(columns=['layer6','count6'])
+            layer1=[]
+            count1=[]
+            layer2=[]
+            count2=[]
+            layer3=[]
+            count3=[]
+            layer4=[]
+            count4=[]
+            layer5=[]
+            count5=[]
+            layer6=[]
+            count6=[]
+            u=0
+            
+            totalrows=len(df)
+            for number in range(totalrows):
+                count=df.iloc[u,1]
+                genename=df.iloc[u,0]
+               
+                genename.strip()
+                data.append(genename)
+                #print(count)
+                if count >=100:
+                   
+                        if genename in layer1genes:
+                    
+                                gene=df.iloc[u]
+                            
+                                layer1.append(genename)
+                                count1.append(count)
+                                
+                    
+                        if genename in layer2genes:
+                                gene1=df.iloc[u]
+                                layer2.append(genename)
+                                count2.append(count)
+                        if genename in layer3genes:
+                                gene2=df.iloc[u]
+                                layer3.append(genename)
+                                count3.append(count)
+                        if genename in layer4genes:
+                                gene3=df.iloc[u]
+                                layer4.append(genename)
+                                count4.append(count)
+                        if genename in layer5genes:
+                                gene4=df.iloc[u]
+                                layer5.append(genename)
+                                count5.append(count)
+                        if genename in layer6genes:
+                                gene5=df.iloc[u]
+                                layer6.append(genename)
+                                count6.append(count)
+        
+                u+=1
+            
+            layer1file['layer1']= layer1
+            layer1file['count1']= count1
+            layer2file['layer2']= layer2
+            layer2file['count2']=count2
+            layer3file['layer3']=layer3
+            layer3file['count3']=count3
+            layer4file['layer4']=layer4
+            layer4file['count4']=count4
+            layer5file['layer5']=layer5
+            layer5file['count5']=count5
+            layer6file['layer6']=layer6
+            layer6file['count6']=count6
+            
+            lis=[layer1file,layer2file,layer3file,layer4file,layer5file,layer6file]
+            resultsfile1=pandas.concat(lis, axis=1)
+            resultsfile1.to_excel(file+'layer'+'.xlsx')
+            
+            
+            
+           
+            
+        

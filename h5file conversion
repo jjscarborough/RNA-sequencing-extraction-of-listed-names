@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Sep 20 15:13:26 2022
+
+@author: joseph
+"""
+
+import scipy.sparse as sp_sparse
+import tables
+import os
+import pandas as pd
+location="/Users/joseph/Desktop/GSE153164_RAW"
+os.chdir(location)
+for root, dirs, files in os.walk(location):
+    for file in files:
+        if file.endswith(".h5"):
+            filename=file
+
+            with tables.open_file(filename, 'r') as f:
+                mat_group = f.get_node(f.root, 'mm10')
+                barcodes = f.get_node(mat_group, 'barcodes').read()
+                data = getattr(mat_group, 'data').read()
+                indices = getattr(mat_group, 'indices').read()
+                indptr = getattr(mat_group, 'indptr').read()
+                shape = getattr(mat_group, 'shape').read()
+                genenames=getattr(mat_group, 'gene_names').read()
+                matrix = sp_sparse.csc_matrix((data, indices, indptr), shape=shape)
+            dat=sp_sparse.csr_matrix.toarray(matrix)
+            genenames1=list(genenames)
+
+            genenames2=[]
+            for name in genenames1:
+                names=name.decode("utf-8")
+                finalname=names.replace("b","",1)
+                genenames2.append(finalname)
+
+            df=pd.DataFrame(dat)
+            df.columns=[barcodes]
+            df.insert(0,'genes',genenames2)
+
+            df.to_csv(filename+'.csv')
+
+       
+ 

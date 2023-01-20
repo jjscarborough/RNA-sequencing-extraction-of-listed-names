@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 21 13:13:28 2022
+
+@author: joseph
+"""
+
+import scipy.sparse as sp_sparse
+import scipy.io as scipy
+import pandas as pd
+import tables
+import os
+import pandas as pd
+genenames1=[]                            
+location="/Users/joseph/Desktop/GSE165233_RAW/test"
+os.chdir(location)
+for root, dirs, files in os.walk(location):
+    for file in files:
+        if file.endswith(".mtx"):
+            filename=file
+            x=scipy.mmread(filename)
+            matrix = sp_sparse.csc_matrix((x))
+            dat=sp_sparse.csr_matrix.toarray(matrix)
+            print(dat)
+            genes=filename[0:26]
+            print(genes)
+            
+        if file.startswith(genes) and file.endswith("features.tsv"):
+            genenamefile=file
+            genenames1=[]
+            genenames=pd.read_csv(genenamefile ,delimiter="\t", header=None )
+            genenames1=genenames.iloc[0:,1]
+            print(genenames1)
+            df=pd.DataFrame(dat)
+
+    
+            df.insert(0,'genes',genenames1)
+
+            df.to_csv(filename +'.csv')
+
